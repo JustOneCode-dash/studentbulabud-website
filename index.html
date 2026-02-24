@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="/images/BULABUD_LOGO.png">
+    <title>Barangay Bulabud</title>
+
+    <style>
+        :root {
+            --primary-bg: #f8f9fa;
+            --sidebar-bg: #ffffff;
+            --accent: #007bff;
+            --dark: #212529;
+            --gray: #6c757d;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: #fff;
+            color: var(--dark);
+            overflow-x: hidden;
+        }
+
+        /* HEADER & NAVIGATION */
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 20px;
+            background-color: var(--primary-bg);
+            border-bottom: 1px solid #ddd;
+            position: sticky;
+            top: 0;
+            z-index: 1100;
+            height: 70px;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .menu-btn {
+            width: 30px;
+            cursor: pointer;
+            z-index: 1200;
+        }
+
+        .menu-btn div {
+            height: 3px;
+            background-color: var(--dark);
+            margin: 5px 0;
+            border-radius: 2px;
+        }
+
+        .header-nav {
+            display: flex;
+            gap: 5px;
+        }
+
+        .header-nav button {
+            background: none;
+            border: none;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            padding: 10px 15px;
+            border-radius: 5px;
+            transition: 0.2s;
+            color: var(--dark);
+        }
+
+        .header-nav button:hover {
+            background-color: #e9ecef;
+            color: var(--accent);
+        }
+
+        .logo img {
+            height: 55px;
+            width: auto;
+            display: block;
+        }
+
+        /* LAYOUT & SIDEBAR */
+        .layout {
+            display: flex;
+            position: relative;
+        }
+
+        .sidebar {
+            width: 250px;
+            background-color: var(--sidebar-bg);
+            border-right: 1px solid #ddd;
+            height: calc(100vh - 71px);
+            position: fixed;
+            left: -250px;
+            transition: 0.3s ease;
+            padding: 20px;
+            z-index: 1000;
+            box-shadow: 5px 0 15px rgba(0,0,0,0.05);
+        }
+
+        .sidebar.active {
+            left: 0;
+        }
+
+        .sidebar a, .sidebar button {
+            display: block;
+            width: 100%;
+            text-align: left;
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 600;
+            padding: 12px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border: none;
+            background: none;
+            cursor: pointer;
+        }
+
+        .sidebar a:hover, .sidebar button:hover {
+            background-color: #f0f0f0;
+            color: var(--accent);
+        }
+
+        /* MAIN CONTENT */
+        .content {
+            flex: 1;
+            padding: 30px 20px;
+            width: 100%;
+            max-width: 1000px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        /* TIMELAPSE ITEMS */
+        .timelapse-section {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .timelapse-item {
+            background: white;
+            border: 1px solid #eee;
+            border-radius: 12px;
+            padding: 15px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        .timelapse-item img {
+            width: 100%;
+            max-width: 800px;
+            height: auto;
+            border-radius: 8px;
+        }
+
+        /* MAP ZOOM STYLES */
+        .map-container {
+            position: relative;
+            overflow: hidden; /* Clips the zoom */
+            border-radius: 12px;
+            border: 2px solid #ddd;
+            margin: 20px auto;
+            cursor: zoom-in;
+            max-width: 800px;
+            background: #eee;
+        }
+
+        .map-image {
+            width: 100%;
+            display: block;
+            transition: transform 0.3s ease;
+            transform-origin: center center;
+        }
+
+        .map-container.zoomed {
+            cursor: zoom-out;
+        }
+
+        .map-container.zoomed .map-image {
+            transform: scale(2.5); /* Increase this for more zoom */
+        }
+
+        /* FOOTER */
+        .footer {
+            padding: 50px 20px;
+            background-color: #1a1a1a;
+            color: #fff;
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        .contact-btn {
+            display: inline-block;
+            background-color: var(--accent);
+            color: white;
+            padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 850px) {
+            .header-nav { display: none; }
+            .sidebar-only-link { display: block !important; }
+        }
+    </style>
+</head>
+<body>
+
+<header class="header">
+    <div class="header-left">
+        <div class="menu-btn" onclick="toggleMenu()">
+            <div></div><div></div><div></div>
+        </div>
+        <div class="logo">
+            <img src="/images/BULABUD_LOGO.png" alt="Barangay Logo">
+        </div>
+    </div>
+
+    <nav class="header-nav">
+        <button onclick="showHome()">Home</button>
+        <button onclick="showGeneral()">General</button>
+        <button onclick="showHistory()">History</button>
+        <button onclick="showMap()">Map</button>
+    </nav>
+
+    <div class="logo">
+        <img src="/images/LOGO1.png" alt="Logo 2">
+    </div>
+</header>
+
+<div class="layout">
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-only-link" style="display: none;">
+            <button onclick="showHome(); toggleMenu()">Home</button>
+            <button onclick="showGeneral(); toggleMenu()">General</button>
+            <button onclick="showHistory(); toggleMenu()">History</button>
+            <button onclick="showMap(); toggleMenu()">Map</button>
+            <hr>
+        </div>
+        <a href="/pages/about.html">About this Web</a>
+        <a href="/pages/sourcecode.html">Source Code</a>
+    </aside>
+
+    <main class="content" id="main-content"></main>
+</div>
+
+<footer class="footer">
+    <a class="contact-btn" href="mailto:naysupeter@gmail.com">Contact Developer (Me)</a>
+    <h2>Feedback</h2>
+    <p>Connecting our community through technology.</p>
+</footer>
+
+<script>
+    const mainContent = document.getElementById("main-content");
+    const sidebar = document.getElementById("sidebar");
+
+    function toggleMenu() {
+        sidebar.classList.toggle("active");
+    }
+
+    function showHome() {
+        mainContent.innerHTML = `
+            <h1>Welcome to Barangay Bulabud</h1>
+            <p>Timelapse of Bulabud through Google Map</p>
+            <div class="timelapse-section">
+                <div class="timelapse-item"><img src="/images/timelapse1.png" alt="2026"><p>February 2026</p></div>
+                <div class="timelapse-item"><img src="/images/timelapse2.png" alt="2023"><p>July 2023</p></div>
+                <div class="timelapse-item"><img src="/images/timelapse3.png" alt="2022"><p>August 2022</p></div>
+                <div class="timelapse-item"><img src="/images/timelapse4.png" alt="2016"><p>July 2016</p></div>
+            </div>`;
+    }
+
+    function showGeneral() {
+    mainContent.innerHTML = "<h1>Loading...</h1>";
+    fetch('/pages/general.html')
+        .then(res => {
+            if(!res.ok) throw new Error("File not found");
+            return res.text();
+        })
+        .then(data => {
+            mainContent.innerHTML = data;
+        })
+        .catch(() => {
+            // Fallback if the file is missing
+            mainContent.innerHTML = `
+                <h1>General Information</h1>
+                <p>Fiesta Date: May 14th</p>
+                <p>Patron Saint: Saint Joseph the Worker</p>
+            `;
+        });
+}
+
+    // --- PUT THIS IN YOUR MAIN HTML SCRIPT SECTION ---
+
+function showHistory() {
+    mainContent.innerHTML = "<h1>Loading...</h1>";
+    fetch('/pages/history.html')
+        .then(res => res.text())
+        .then(data => {
+            mainContent.innerHTML = data;
+        })
+        .catch(() => {
+            mainContent.innerHTML = "<h1>History</h1><p>File not found.</p>";
+        });
+}
+
+// Move the logic here so the browser always knows what it is
+function setLanguage(lang) {
+    const enDiv = document.getElementById('content-en');
+    const akDiv = document.getElementById('content-ak');
+    const enBtn = document.getElementById('btn-en');
+    const akBtn = document.getElementById('btn-ak');
+    const slider = document.getElementById('slider'); // Get the slider
+
+    if (lang === 'en') {
+        enDiv.style.display = 'block';
+        akDiv.style.display = 'none';
+        enBtn.classList.add('active');
+        akBtn.classList.remove('active');
+        slider.classList.remove('slide-right'); // Slide back to left
+    } else {
+        enDiv.style.display = 'none';
+        akDiv.style.display = 'block';
+        enBtn.classList.remove('active');
+        akBtn.classList.add('active');
+        slider.classList.add('slide-right'); // Slide to the right
+    }
+}
+    function showMap() {
+        mainContent.innerHTML = `
+            <h1>Barangay Map</h1>
+            <p>Click the map to zoom in. Move your mouse to pan.</p>
+            <div class="map-container" id="mapBox">
+                <img src="/images/BulabudMap2.jpg" alt="Map" class="map-image" id="mapImg">
+            </div>
+        `;
+
+        const mapBox = document.getElementById('mapBox');
+        const mapImg = document.getElementById('mapImg');
+
+        // Toggle Zoom on Click
+        mapBox.addEventListener('click', () => {
+            mapBox.classList.toggle('zoomed');
+        });
+
+        // Pan Logic: Follows mouse position when zoomed
+        mapBox.addEventListener('mousemove', (e) => {
+            if (mapBox.classList.contains('zoomed')) {
+                const x = e.clientX - mapBox.offsetLeft;
+                const y = e.clientY - mapBox.offsetTop;
+                
+                // Adjusting the origin so the image follows mouse
+                mapImg.style.transformOrigin = `${(x / mapBox.offsetWidth) * 100}% ${(y / mapBox.offsetHeight) * 100}%`;
+            }
+        });
+
+        // Reset origin when mouse leaves
+        mapBox.addEventListener('mouseleave', () => {
+            mapImg.style.transformOrigin = "center center";
+        });
+    }
+
+    showHome();
+</script>
+
+</body>
+</html>
