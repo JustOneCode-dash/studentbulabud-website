@@ -71,6 +71,7 @@
             border-radius: 5px;
             transition: 0.2s;
             color: var(--dark);
+            font-family: 'Segoe UI', sans-serif !important;
         }
 
         .header-nav button:hover {
@@ -84,7 +85,7 @@
             display: block;
         }
 
-        /* LAYOUT & SIDEBAR */
+        /* LAYOUT & SIDEBAR - FONT PROTECTION */
         .layout {
             display: flex;
             position: relative;
@@ -107,24 +108,27 @@
             left: 0;
         }
 
-        .sidebar a, .sidebar button {
+        .sidebar-item {
             display: block;
             width: 100%;
             text-align: left;
             text-decoration: none;
-            color: var(--dark);
-            font-weight: 600;
+            color: var(--dark) !important;
+            font-family: 'Segoe UI', system-ui, sans-serif !important;
+            font-weight: 600 !important;
+            font-size: 16px !important;
             padding: 12px;
             margin-bottom: 10px;
             border-radius: 5px;
-            border: none;
-            background: none;
+            border: none !important;
+            background: none !important;
             cursor: pointer;
+            transition: 0.2s;
         }
 
-        .sidebar a:hover, .sidebar button:hover {
-            background-color: #f0f0f0;
-            color: var(--accent);
+        .sidebar-item:hover {
+            background-color: #f0f0f0 !important;
+            color: var(--accent) !important;
         }
 
         /* MAIN CONTENT */
@@ -163,7 +167,7 @@
         /* MAP ZOOM STYLES */
         .map-container {
             position: relative;
-            overflow: hidden; /* Clips the zoom */
+            overflow: hidden;
             border-radius: 12px;
             border: 2px solid #ddd;
             margin: 20px auto;
@@ -184,7 +188,7 @@
         }
 
         .map-container.zoomed .map-image {
-            transform: scale(2.5); /* Increase this for more zoom */
+            transform: scale(2.5);
         }
 
         /* FOOTER */
@@ -240,14 +244,14 @@
 <div class="layout">
     <aside class="sidebar" id="sidebar">
         <div class="sidebar-only-link" style="display: none;">
-            <button onclick="showHome(); toggleMenu()">Home</button>
-            <button onclick="showGeneral(); toggleMenu()">General</button>
-            <button onclick="showHistory(); toggleMenu()">History</button>
-            <button onclick="showMap(); toggleMenu()">Map</button>
+            <button class="sidebar-item" onclick="showHome(); toggleMenu()">Home</button>
+            <button class="sidebar-item" onclick="showGeneral(); toggleMenu()">General</button>
+            <button class="sidebar-item" onclick="showHistory(); toggleMenu()">History</button>
+            <button class="sidebar-item" onclick="showMap(); toggleMenu()">Map</button>
             <hr>
         </div>
-        <a href="/pages/about.html">About this Web</a>
-        <a href="/pages/sourcecode.html">Source Code</a>
+        <a href="/pages/about.html" class="sidebar-item">About this Web</a>
+        <a href="/pages/sourcecode.html" class="sidebar-item">Source Code</a>
     </aside>
 
     <main class="content" id="main-content"></main>
@@ -280,61 +284,52 @@
     }
 
     function showGeneral() {
-    mainContent.innerHTML = "<h1>Loading...</h1>";
-    fetch('/pages/general.html')
-        .then(res => {
-            if(!res.ok) throw new Error("File not found");
-            return res.text();
-        })
-        .then(data => {
-            mainContent.innerHTML = data;
-        })
-        .catch(() => {
-            // Fallback if the file is missing
-            mainContent.innerHTML = `
-                <h1>General Information</h1>
-                <p>Fiesta Date: May 14th</p>
-                <p>Patron Saint: Saint Joseph the Worker</p>
-            `;
-        });
-}
-
-    // --- PUT THIS IN YOUR MAIN HTML SCRIPT SECTION ---
-
-function showHistory() {
-    mainContent.innerHTML = "<h1>Loading...</h1>";
-    fetch('/pages/history.html')
-        .then(res => res.text())
-        .then(data => {
-            mainContent.innerHTML = data;
-        })
-        .catch(() => {
-            mainContent.innerHTML = "<h1>History</h1><p>File not found.</p>";
-        });
-}
-
-// Move the logic here so the browser always knows what it is
-function setLanguage(lang) {
-    const enDiv = document.getElementById('content-en');
-    const akDiv = document.getElementById('content-ak');
-    const enBtn = document.getElementById('btn-en');
-    const akBtn = document.getElementById('btn-ak');
-    const slider = document.getElementById('slider'); // Get the slider
-
-    if (lang === 'en') {
-        enDiv.style.display = 'block';
-        akDiv.style.display = 'none';
-        enBtn.classList.add('active');
-        akBtn.classList.remove('active');
-        slider.classList.remove('slide-right'); // Slide back to left
-    } else {
-        enDiv.style.display = 'none';
-        akDiv.style.display = 'block';
-        enBtn.classList.remove('active');
-        akBtn.classList.add('active');
-        slider.classList.add('slide-right'); // Slide to the right
+        mainContent.innerHTML = "<h1>Loading...</h1>";
+        fetch('/pages/general.html')
+            .then(res => res.text())
+            .then(data => { mainContent.innerHTML = data; })
+            .catch(() => {
+                mainContent.innerHTML = "<h1>General Information</h1><p>Fiesta: May 14</p>";
+            });
     }
-}
+
+    function showHistory() {
+        mainContent.innerHTML = "<h1>Loading...</h1>";
+        fetch('/pages/history.html')
+            .then(res => res.text())
+            .then(data => {
+                mainContent.innerHTML = data;
+            })
+            .catch(() => {
+                mainContent.innerHTML = "<h1>History</h1><p>File not found.</p>";
+            });
+    }
+
+    // LANGUAGE TOGGLE FUNCTION (RESTORED)
+    function setLanguage(lang) {
+        const enDiv = document.getElementById('content-en');
+        const akDiv = document.getElementById('content-ak');
+        const enBtn = document.getElementById('btn-en');
+        const akBtn = document.getElementById('btn-ak');
+        const slider = document.getElementById('slider');
+
+        if (!enDiv || !akDiv) return; // Safety check
+
+        if (lang === 'en') {
+            enDiv.style.display = 'block';
+            akDiv.style.display = 'none';
+            if(enBtn) enBtn.classList.add('active');
+            if(akBtn) akBtn.classList.remove('active');
+            if(slider) slider.classList.remove('slide-right');
+        } else {
+            enDiv.style.display = 'none';
+            akDiv.style.display = 'block';
+            if(enBtn) enBtn.classList.remove('active');
+            if(akBtn) akBtn.classList.add('active');
+            if(slider) slider.classList.add('slide-right');
+        }
+    }
+
     function showMap() {
         mainContent.innerHTML = `
             <h1>Barangay Map</h1>
@@ -343,29 +338,16 @@ function setLanguage(lang) {
                 <img src="/images/BulabudMap2.jpg" alt="Map" class="map-image" id="mapImg">
             </div>
         `;
-
         const mapBox = document.getElementById('mapBox');
         const mapImg = document.getElementById('mapImg');
-
-        // Toggle Zoom on Click
-        mapBox.addEventListener('click', () => {
-            mapBox.classList.toggle('zoomed');
-        });
-
-        // Pan Logic: Follows mouse position when zoomed
+        mapBox.addEventListener('click', () => mapBox.classList.toggle('zoomed'));
         mapBox.addEventListener('mousemove', (e) => {
             if (mapBox.classList.contains('zoomed')) {
-                const x = e.clientX - mapBox.offsetLeft;
-                const y = e.clientY - mapBox.offsetTop;
-                
-                // Adjusting the origin so the image follows mouse
+                const rect = mapBox.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
                 mapImg.style.transformOrigin = `${(x / mapBox.offsetWidth) * 100}% ${(y / mapBox.offsetHeight) * 100}%`;
             }
-        });
-
-        // Reset origin when mouse leaves
-        mapBox.addEventListener('mouseleave', () => {
-            mapImg.style.transformOrigin = "center center";
         });
     }
 
