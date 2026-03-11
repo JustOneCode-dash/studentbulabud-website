@@ -225,7 +225,7 @@
             <div></div><div></div><div></div>
         </div>
         <div class="logo">
-            <img src="/images/BULABUD_LOGO.png" alt="Barangay Logo">
+            <img src="images/BULABUD_LOGO.png" alt="Barangay Logo">
         </div>
     </div>
 
@@ -250,8 +250,8 @@
             <button class="sidebar-item" onclick="showMap(); toggleMenu()">Map</button>
             <hr>
         </div>
-        <a href="/pages/about.html" class="sidebar-item">About this Web</a>
-        <a href="/pages/sourcecode.html" class="sidebar-item">Source Code</a>
+        <a href="pages/about.html" class="sidebar-item">About this Web</a>
+        <a href="pages/sourcecode.html" class="sidebar-item">Source Code</a>
     </aside>
 
     <main class="content" id="main-content"></main>
@@ -276,16 +276,16 @@
             <h1>Welcome to Barangay Bulabud</h1>
             <p>Timelapse of Bulabud through Google Map</p>
             <div class="timelapse-section">
-                <div class="timelapse-item"><img src="/images/timelapse1.png" alt="2026"><p>February 2026</p></div>
-                <div class="timelapse-item"><img src="/images/timelapse2.png" alt="2023"><p>July 2023</p></div>
-                <div class="timelapse-item"><img src="/images/timelapse3.png" alt="2022"><p>August 2022</p></div>
-                <div class="timelapse-item"><img src="/images/timelapse4.png" alt="2016"><p>July 2016</p></div>
+                <div class="timelapse-item"><img src="images/timelapse1.png" alt="2026"><p>February 2026</p></div>
+                <div class="timelapse-item"><img src="images/timelapse2.png" alt="2023"><p>July 2023</p></div>
+                <div class="timelapse-item"><img src="images/timelapse3.png" alt="2022"><p>August 2022</p></div>
+                <div class="timelapse-item"><img src="images/timelapse4.png" alt="2016"><p>July 2016</p></div>
             </div>`;
     }
 
     function showGeneral() {
         mainContent.innerHTML = "<h1>Loading...</h1>";
-        fetch('/pages/general.html')
+        fetch('pages/general.html')
             .then(res => res.text())
             .then(data => { mainContent.innerHTML = data; })
             .catch(() => {
@@ -295,7 +295,7 @@
 
     function showHistory() {
         mainContent.innerHTML = "<h1>Loading...</h1>";
-        fetch('/pages/history.html')
+        fetch('pages/history.html')
             .then(res => res.text())
             .then(data => {
                 mainContent.innerHTML = data;
@@ -335,7 +335,7 @@
             <h1>Barangay Map</h1>
             <p>Click the map to zoom in. Move your mouse to pan.</p>
             <div class="map-container" id="mapBox">
-                <img src="/images/BulabudMap2.jpg" alt="Map" class="map-image" id="mapImg">
+                <img src="images/BulabudMap2.jpg" alt="Map" class="map-image" id="mapImg">
             </div>
         `;
         const mapBox = document.getElementById('mapBox');
@@ -356,3 +356,4 @@
 
 </body>
 </html>
+
